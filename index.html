@@ -454,6 +454,34 @@
     color: #475569;
     line-height: 1.6;
   }
+
+  /* Final variants (featured pair) */
+  .final-section { margin-bottom: 40px; }
+  .final-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+    gap: 24px;
+  }
+  .final-card {
+    background: #ffffff;
+    border: 2px solid var(--navy);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 6px 20px rgba(16,34,66,0.10);
+  }
+  .final-card .card-body { margin-bottom: 16px; }
+  .final-card .card-body.is-dark { background: #e2e8f0; border-color: #cbd5e1; }
+  .final-tag {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--gold), #b87b22);
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
 </style>
 </head>
 <body>
@@ -568,6 +596,17 @@
       <button class="btn btn-secondary" onclick="copyHtml('spotlight')">
         &lt;/&gt; Скопировать чистый HTML-код
       </button>
+    </div>
+  </section>
+
+  <!-- FINAL VARIANTS: featured light + dark pair -->
+  <section class="final-section">
+    <div class="section-title">
+      <span>Финальные варианты: Белая и Тёмная карточка с оранжевой полосой</span>
+      <span class="count">2 варианта</span>
+    </div>
+    <div class="final-grid" id="final-variants-grid">
+      <!-- Populated by JS -->
     </div>
   </section>
 
@@ -723,6 +762,78 @@ function renderSpotlight(c) {
   </tr>
 </table>`;
 }
+
+// Final featured variants: white card + dark card, both with orange left stripe
+const FINAL_VARIANTS = [
+  {
+    id: "f1",
+    name: "Финал 1: Белая карточка · оранжевая полоса · обводка как у H1",
+    desc: "Белый фон, оранжевая полоса слева, светло-серая обводка как у H1. Под именем — Direct: телефон • email.",
+    dark: false,
+    render: (c) => `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:'Roboto',Arial,sans-serif;color:#1a2330;font-size:13px;max-width:500px;line-height:1.4;">
+  <tr>
+    <td style="background:#ffffff;border:1px solid #cbd5e1;border-left:5px solid #e8892b;border-radius:0 10px 10px 0;padding:16px 20px;">
+      <div style="font-size:15px;font-weight:700;color:#102242;margin-bottom:2px;">${c.name} <span style="font-weight:400;color:#94a3b8;">|</span> ${c.title}</div>
+      <div style="font-size:12px;color:#334155;margin-bottom:12px;">Direct: <a href="tel:${c.phone}" style="color:#102242;font-weight:700;text-decoration:none;">${c.phone}</a> &bull; <a href="mailto:${c.email}" style="color:#1a73e8;text-decoration:none;">${c.email}</a></div>
+      <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">
+        <tr>
+          <td style="padding-right:14px;vertical-align:middle;"><img src="${c.bvbLogo}" alt="BVB" height="${c.logoH}" style="display:block;height:${c.logoH}px;border:0;"></td>
+          <td style="padding-left:14px;border-left:1px solid #e2e8f0;vertical-align:middle;"><img src="${c.swLogo}" alt="SmartWay" height="${c.logoH}" style="display:block;height:${c.logoH}px;border:0;"></td>
+        </tr>
+      </table>
+      <div style="font-size:12px;color:#475569;margin-bottom:12px;">
+        <strong style="color:#102242;">${c.mc}</strong> &bull; <a href="https://maps.google.com/?q=${encodeURIComponent(c.addr)}" target="_blank" style="color:#1a73e8;font-style:italic;font-size:11px;text-decoration:underline;">${c.addr}</a>
+      </div>
+      <table cellpadding="0" cellspacing="0" border="0" style="width:100%;background:linear-gradient(135deg,#102242,#1e3a6e);border-radius:8px;">
+        <tr>
+          <td style="padding:10px 14px;color:#ffffff;vertical-align:middle;">
+            <div style="font-weight:800;color:#e0b25e;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;">BVB CONNECT PORTAL</div>
+          </td>
+          <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
+            <a href="https://${c.url}" target="_blank" style="background:#e8892b;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`
+  },
+  {
+    id: "f2",
+    name: "Финал 2: Тёмная карточка (фон H9) · оранжевая полоса",
+    desc: "Тёмно-синий фон как у H9, та же оранжевая полоса, светлая обводка. Логотипы на белой плашке (у них белый фон).",
+    dark: true,
+    render: (c) => `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:'Roboto',Arial,sans-serif;color:#e2e8f0;font-size:13px;max-width:500px;line-height:1.4;">
+  <tr>
+    <td style="background:#102242;border:1px solid #5b7bb5;border-left:5px solid #e8892b;border-radius:0 10px 10px 0;padding:16px 20px;">
+      <div style="font-size:15px;font-weight:700;color:#ffffff;margin-bottom:2px;">${c.name} <span style="font-weight:400;color:#64748b;">|</span> ${c.title}</div>
+      <div style="font-size:12px;color:#cbd5e1;margin-bottom:12px;">Direct: <a href="tel:${c.phone}" style="color:#ffffff;font-weight:700;text-decoration:none;">${c.phone}</a> &bull; <a href="mailto:${c.email}" style="color:#8ab4f8;text-decoration:none;">${c.email}</a></div>
+      <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;background:#ffffff;border-radius:8px;">
+        <tr>
+          <td style="padding:8px 14px 8px 12px;vertical-align:middle;"><img src="${c.bvbLogo}" alt="BVB" height="${c.logoH}" style="display:block;height:${c.logoH}px;border:0;"></td>
+          <td style="padding:8px 12px 8px 14px;border-left:1px solid #e2e8f0;vertical-align:middle;"><img src="${c.swLogo}" alt="SmartWay" height="${c.logoH}" style="display:block;height:${c.logoH}px;border:0;"></td>
+        </tr>
+      </table>
+      <div style="font-size:12px;color:#cbd5e1;margin-bottom:12px;">
+        <strong style="color:#ffffff;">${c.mc}</strong> &bull; <a href="https://maps.google.com/?q=${encodeURIComponent(c.addr)}" target="_blank" style="color:#8ab4f8;font-style:italic;font-size:11px;text-decoration:underline;">${c.addr}</a>
+      </div>
+      <table cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#16294d;border:1px solid #2c4478;border-radius:8px;">
+        <tr>
+          <td style="padding:10px 14px;vertical-align:middle;">
+            <div style="font-weight:800;color:#e0b25e;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;">BVB CONNECT PORTAL</div>
+          </td>
+          <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
+            <a href="https://${c.url}" target="_blank" style="background:#e8892b;color:#0d1b33;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`
+  }
+];
 
 // 10 Curated Sub-Variations of the Hybrid
 const HYBRID_VARIATIONS = [
@@ -1070,6 +1181,35 @@ function renderAll() {
     spotEl.innerHTML = renderSpotlight(data).trim();
   }
 
+  // Render Final Variants
+  const finalEl = document.getElementById('final-variants-grid');
+  if (finalEl) {
+    finalEl.innerHTML = '';
+    FINAL_VARIANTS.forEach(tpl => {
+      const card = document.createElement('div');
+      card.className = 'final-card';
+      card.innerHTML = `
+        <div class="card-top">
+          <div class="card-name">${tpl.name}</div>
+          <span class="final-tag">${tpl.dark ? 'Dark' : 'Light'}</span>
+        </div>
+        <div class="card-desc">${tpl.desc}</div>
+        <div class="card-body${tpl.dark ? ' is-dark' : ''}" id="preview-${tpl.id}">
+          ${tpl.render(data).trim()}
+        </div>
+        <div class="card-bottom">
+          <button class="btn btn-gold" onclick="copyVisual('${tpl.id}')">
+            📋 Скопировать (Gmail / Outlook)
+          </button>
+          <button class="btn btn-secondary" onclick="copyHtml('${tpl.id}')">
+            &lt;/&gt; Код HTML
+          </button>
+        </div>
+      `;
+      finalEl.appendChild(card);
+    });
+  }
+
   // Render Hybrid Variations
   const gridEl = document.getElementById('hybrid-variations-grid');
   if (gridEl) {
@@ -1150,7 +1290,7 @@ async function copyHtml(id) {
   if (id === 'spotlight') {
     html = renderSpotlight(data).trim();
   } else {
-    const tpl = HYBRID_VARIATIONS.find(t => t.id === id);
+    const tpl = [...FINAL_VARIANTS, ...HYBRID_VARIATIONS].find(t => t.id === id);
     if (tpl) html = tpl.render(data).trim();
   }
   if (!html) return;
