@@ -520,6 +520,16 @@
         <label>Текст кнопки</label>
         <input type="text" id="inp-btn" value="Visit bvbconnect.com →" oninput="renderAll()">
       </div>
+      <div class="field-group" style="grid-column: span 2;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
+          <label style="font-weight:700;color:var(--navy);font-size:11px;margin:0;">📊 UTM Трекинг кликов (GTM / GA4):</label>
+          <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer;color:#1e3a6e;font-weight:600;">
+            <input type="checkbox" id="chk-utm" checked onchange="renderAll()" style="accent-color:var(--navy);cursor:pointer;">
+            Включить
+          </label>
+        </div>
+        <div id="utm-preview-box" style="font-size:11px;color:#1e3a6e;background:#e8f0fe;border:1px solid #c7d8f5;padding:5px 8px;border-radius:6px;word-break:break-all;font-family:monospace;"></div>
+      </div>
     </div>
     <div class="controls-row">
       <div class="slider-group">
@@ -658,14 +668,32 @@ function getData() {
   document.getElementById('lbl-logosize').textContent = logoH + 'px';
   const logos = getLogos();
 
+  const name = document.getElementById('inp-name').value.trim() || 'Adam';
+  const rawUrl = document.getElementById('inp-url').value.trim() || 'bvbconnect.com';
+  const utmOn = document.getElementById('chk-utm') ? document.getElementById('chk-utm').checked : true;
+
+  let cleanUrl = rawUrl.replace(/^https?:\/\//i, '').replace(/\/+$/, '');
+  let finalTargetUrl = 'https://' + cleanUrl;
+
+  if (utmOn) {
+    const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '_') || 'agent';
+    finalTargetUrl += `?utm_source=email_signature&utm_medium=email&utm_campaign=portal&utm_content=${encodeURIComponent(slug)}`;
+  }
+
+  const utmBox = document.getElementById('utm-preview-box');
+  if (utmBox) {
+    utmBox.textContent = '🔗 Ссылка кнопки: ' + finalTargetUrl;
+  }
+
   return {
-    name: document.getElementById('inp-name').value.trim() || 'Adam',
+    name: name,
     title: document.getElementById('inp-title').value.trim() || 'Logistics Manager',
     phone: document.getElementById('inp-phone').value.trim() || '(425) 459-1969',
     email: document.getElementById('inp-email').value.trim() || 'adam@bvbfreight.com',
     mc: document.getElementById('inp-mc').value.trim() || 'MC - 1164350',
     addr: document.getElementById('inp-addr').value.trim() || '160 NW GILMAN BLVD STE 243 ISSAQUAH, WA 98027',
-    url: document.getElementById('inp-url').value.trim() || 'bvbconnect.com',
+    url: rawUrl,
+    btnUrl: finalTargetUrl,
     btnText: document.getElementById('inp-btn').value.trim() || 'Visit bvbconnect.com →',
     logoH: logoH,
     bvbLogo: logos.bvb,
@@ -713,7 +741,7 @@ function renderSpotlight(c) {
             </div>
           </td>
           <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
-            <a href="https://${c.url}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;font-family:'Roboto',Arial,sans-serif;">
+            <a href="${c.btnUrl}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;font-family:'Roboto',Arial,sans-serif;">
               ${c.btnText}
             </a>
           </td>
@@ -751,7 +779,7 @@ const HYBRID_VARIATIONS = [
             <div style="font-weight:800;color:#e0b25e;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;">BVB CONNECT PORTAL</div>
           </td>
           <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
-            <a href="https://${c.url}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
+            <a href="${c.btnUrl}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
           </td>
         </tr>
       </table>
@@ -786,7 +814,7 @@ const HYBRID_VARIATIONS = [
             <div style="font-weight:800;color:#e0b25e;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;">BVB CONNECT PORTAL</div>
           </td>
           <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
-            <a href="https://${c.url}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
+            <a href="${c.btnUrl}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
           </td>
         </tr>
       </table>
@@ -819,7 +847,7 @@ const HYBRID_VARIATIONS = [
             <div style="font-weight:800;color:#e0b25e;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;">BVB CONNECT PORTAL</div>
           </td>
           <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
-            <a href="https://${c.url}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
+            <a href="${c.btnUrl}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
           </td>
         </tr>
       </table>
@@ -851,7 +879,7 @@ const HYBRID_VARIATIONS = [
             <div style="font-weight:800;color:#e0b25e;font-size:11.5px;text-transform:uppercase;letter-spacing:0.05em;">BVB CONNECT PORTAL</div>
           </td>
           <td style="padding:8px 12px;text-align:right;vertical-align:middle;">
-            <a href="https://${c.url}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11px;font-weight:700;padding:5px 12px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
+            <a href="${c.btnUrl}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11px;font-weight:700;padding:5px 12px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
           </td>
         </tr>
       </table>
@@ -886,7 +914,7 @@ const HYBRID_VARIATIONS = [
             </div>
           </td>
           <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
-            <a href="https://${c.url}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
+            <a href="${c.btnUrl}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
           </td>
         </tr>
       </table>
@@ -919,7 +947,7 @@ const HYBRID_VARIATIONS = [
             <div style="font-weight:800;color:#e0b25e;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;">BVB CONNECT PORTAL</div>
           </td>
           <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
-            <a href="https://${c.url}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">Open Load Board →</a>
+            <a href="${c.btnUrl}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">Open Load Board →</a>
           </td>
         </tr>
       </table>
@@ -952,7 +980,7 @@ const HYBRID_VARIATIONS = [
             <div style="font-weight:800;color:#e0b25e;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;">BVB CONNECT PORTAL</div>
           </td>
           <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
-            <a href="https://${c.url}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">Book Loads Online →</a>
+            <a href="${c.btnUrl}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">Book Loads Online →</a>
           </td>
         </tr>
       </table>
@@ -985,7 +1013,7 @@ const HYBRID_VARIATIONS = [
             <div style="font-weight:800;color:#e0b25e;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;">BVB CONNECT PORTAL</div>
           </td>
           <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
-            <a href="https://${c.url}" target="_blank" style="background:transparent;color:#e0b25e;border:1.5px solid #cf9032;text-decoration:none;font-size:11px;font-weight:700;padding:6px 12px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
+            <a href="${c.btnUrl}" target="_blank" style="background:transparent;color:#e0b25e;border:1.5px solid #cf9032;text-decoration:none;font-size:11px;font-weight:700;padding:6px 12px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
           </td>
         </tr>
       </table>
@@ -1020,7 +1048,7 @@ const HYBRID_VARIATIONS = [
             <div style="font-weight:800;color:#e0b25e;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;">BVB CONNECT PORTAL</div>
           </td>
           <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
-            <a href="https://${c.url}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
+            <a href="${c.btnUrl}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
           </td>
         </tr>
       </table>
@@ -1051,7 +1079,7 @@ const HYBRID_VARIATIONS = [
         <tr>
           <td style="padding:10px 14px;text-align:center;">
             <span style="font-weight:800;color:#e0b25e;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;margin-right:12px;vertical-align:middle;">BVB CONNECT PORTAL:</span>
-            <a href="https://${c.url}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:6px 14px;border-radius:4px;display:inline-block;white-space:nowrap;vertical-align:middle;">${c.btnText}</a>
+            <a href="${c.btnUrl}" target="_blank" style="background:#cf9032;color:#102242;text-decoration:none;font-size:11.5px;font-weight:700;padding:6px 14px;border-radius:4px;display:inline-block;white-space:nowrap;vertical-align:middle;">${c.btnText}</a>
           </td>
         </tr>
       </table>
