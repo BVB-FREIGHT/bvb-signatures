@@ -603,7 +603,7 @@
   <section class="final-section">
     <div class="section-title">
       <span>Финальные варианты: Белая и Тёмная карточка с оранжевой полосой</span>
-      <span class="count">2 варианта</span>
+      <span class="count">4 варианта</span>
     </div>
     <div class="final-grid" id="final-variants-grid">
       <!-- Populated by JS -->
@@ -763,6 +763,14 @@ function renderSpotlight(c) {
 </table>`;
 }
 
+// CTA label: uppercase text + vertically centered arrow (arrow glyph sits low in the font by default)
+function ctaLabel(btnText) {
+  const m = btnText.match(/^(.*?)\s*([→➔➜>]+)?\s*$/);
+  const text = (m ? m[1] : btnText).toUpperCase();
+  const arrow = m && m[2] ? ' <span style="font-size:14px;line-height:10px;vertical-align:middle;position:relative;top:-3px;">&rarr;</span>' : '';
+  return text + arrow;
+}
+
 // Final featured variants: white card + dark card, both with orange left stripe
 const FINAL_VARIANTS = [
   {
@@ -826,6 +834,74 @@ const FINAL_VARIANTS = [
           </td>
           <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
             <a href="https://${c.url}" target="_blank" style="background:#e8892b;color:#0d1b33;text-decoration:none;font-size:11.5px;font-weight:700;padding:7px 14px;border-radius:4px;display:inline-block;white-space:nowrap;">${c.btnText}</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`
+  },
+  {
+    id: "f3",
+    name: "Финал 3: Белая карточка · оранжевый #f97316 · графитовый баннер",
+    desc: "Как Финал 1, но с обновлённой палитрой: оранжевый #f97316, баннер графитовый с серо-синей обводкой, в баннере «BVB» оранжевый, «CONNECT PORTAL» белый.",
+    dark: false,
+    render: (c) => `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:'Roboto',Arial,sans-serif;color:#1a2330;font-size:13px;max-width:500px;line-height:1.4;">
+  <tr>
+    <td style="background:#ffffff;border:1px solid #cbd5e1;border-left:5px solid #f97316;border-radius:0 10px 10px 0;padding:16px 20px;">
+      <div style="font-size:15px;font-weight:700;color:#0f172a;margin-bottom:2px;">${c.name} <span style="font-weight:400;color:#94a3b8;">|</span> ${c.title}</div>
+      <div style="font-size:12px;color:#334155;margin-bottom:12px;">Direct: <a href="tel:${c.phone}" style="color:#0f172a;font-weight:700;text-decoration:none;">${c.phone}</a> &bull; <a href="mailto:${c.email}" style="color:#1a73e8;text-decoration:none;">${c.email}</a></div>
+      <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;">
+        <tr>
+          <td style="padding-right:14px;vertical-align:middle;"><img src="${c.bvbLogo}" alt="BVB" height="${c.logoH}" style="display:block;height:${c.logoH}px;border:0;"></td>
+          <td style="padding-left:14px;border-left:1px solid #e2e8f0;vertical-align:middle;"><img src="${c.swLogo}" alt="SmartWay" height="${c.logoH}" style="display:block;height:${c.logoH}px;border:0;"></td>
+        </tr>
+      </table>
+      <div style="font-size:12px;color:#475569;margin-bottom:12px;">
+        <strong style="color:#0f172a;">${c.mc}</strong> &bull; <a href="https://maps.google.com/?q=${encodeURIComponent(c.addr)}" target="_blank" style="color:#1a73e8;font-style:italic;font-size:11px;text-decoration:underline;">${c.addr}</a>
+      </div>
+      <table cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#1e2939;border:1px solid #4a5565;border-radius:8px;">
+        <tr>
+          <td style="padding:10px 14px;vertical-align:middle;">
+            <div style="font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;"><span style="color:#f97316;">BVB</span> <span style="color:#ffffff;">CONNECT PORTAL</span></div>
+          </td>
+          <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
+            <a href="https://${c.url}" target="_blank" style="background:#f97316;color:#ffffff;text-decoration:none;font-size:11.5px;font-weight:700;padding:8px 14px;border-radius:4px;display:inline-block;white-space:nowrap;letter-spacing:0.04em;line-height:14px;">${ctaLabel(c.btnText)}</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`
+  },
+  {
+    id: "f4",
+    name: "Финал 4: Графитовая карточка · оранжевый #f97316 · синий баннер",
+    desc: "Как Финал 2, но фон карточки графитовый с серо-синей обводкой, баннер на фоне #0f172a, «BVB» оранжевый, «CONNECT PORTAL» белый.",
+    dark: true,
+    render: (c) => `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:'Roboto',Arial,sans-serif;color:#e2e8f0;font-size:13px;max-width:500px;line-height:1.4;">
+  <tr>
+    <td style="background:#1e2939;border:1px solid #4a5565;border-left:5px solid #f97316;border-radius:0 10px 10px 0;padding:16px 20px;">
+      <div style="font-size:15px;font-weight:700;color:#ffffff;margin-bottom:2px;">${c.name} <span style="font-weight:400;color:#64748b;">|</span> ${c.title}</div>
+      <div style="font-size:12px;color:#cbd5e1;margin-bottom:12px;">Direct: <a href="tel:${c.phone}" style="color:#ffffff;font-weight:700;text-decoration:none;">${c.phone}</a> &bull; <a href="mailto:${c.email}" style="color:#8ab4f8;text-decoration:none;">${c.email}</a></div>
+      <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:12px;background:#ffffff;border-radius:8px;">
+        <tr>
+          <td style="padding:8px 14px 8px 12px;vertical-align:middle;"><img src="${c.bvbLogo}" alt="BVB" height="${c.logoH}" style="display:block;height:${c.logoH}px;border:0;"></td>
+          <td style="padding:8px 12px 8px 14px;border-left:1px solid #e2e8f0;vertical-align:middle;"><img src="${c.swLogo}" alt="SmartWay" height="${c.logoH}" style="display:block;height:${c.logoH}px;border:0;"></td>
+        </tr>
+      </table>
+      <div style="font-size:12px;color:#cbd5e1;margin-bottom:12px;">
+        <strong style="color:#ffffff;">${c.mc}</strong> &bull; <a href="https://maps.google.com/?q=${encodeURIComponent(c.addr)}" target="_blank" style="color:#8ab4f8;font-style:italic;font-size:11px;text-decoration:underline;">${c.addr}</a>
+      </div>
+      <table cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#0f172a;border:1px solid #4a5565;border-radius:8px;">
+        <tr>
+          <td style="padding:10px 14px;vertical-align:middle;">
+            <div style="font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;"><span style="color:#f97316;">BVB</span> <span style="color:#ffffff;">CONNECT PORTAL</span></div>
+          </td>
+          <td style="padding:10px 14px;text-align:right;vertical-align:middle;">
+            <a href="https://${c.url}" target="_blank" style="background:#f97316;color:#ffffff;text-decoration:none;font-size:11.5px;font-weight:700;padding:8px 14px;border-radius:4px;display:inline-block;white-space:nowrap;letter-spacing:0.04em;line-height:14px;">${ctaLabel(c.btnText)}</a>
           </td>
         </tr>
       </table>
